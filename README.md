@@ -75,10 +75,12 @@ server {
     # the virtual host name of this
     listen 80;
     server_name <your-domain-or-subdomain>; #api.minio.example.com
+    client_max_body_size 0; # no limit on file size
 
     location / {
         proxy_pass http://minio-prod-backend-server;
         proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-Server $host;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -93,15 +95,19 @@ server {
     # the virtual host name of this
     listen 80;
     server_name <your-domain-or-subdomain>; #minio.example.com
+    client_max_body_size 0; # no limit on file size
 
     location / {
         proxy_pass http://minio-prod-backend-console;
         proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-Server $host;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $host;
         proxy_set_header X-Ningx-Proxy true;
+        # This is necessary to pass the correct IP to be hashed
+        real_ip_header X-Real-IP;
         proxy_connect_timeout 300;
 
         # To support websocket
