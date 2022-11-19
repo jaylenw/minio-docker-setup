@@ -1,4 +1,4 @@
-# My Nextcloud Docker Setup
+# My Minio Docker Setup
 
 **Goal**: Support a Docker Compose environment for running a single Minio node with data stored to an NFS. 
 
@@ -26,8 +26,8 @@ your  data storage for Minio.
 
 ### Local Testing
 
-To get started with this, it is best that you are able to get Nextcloud running locally first before deploying it to your deployment environment (ex. your server).
-We will first get Nextcloud working without NFS to make sure all is well.
+To get started with this, it is best that you are able to get Minio running locally first before deploying it to your deployment environment (ex. your server).
+We will first get Minio working without NFS to make sure all is well.
 
 1.) Run `docker compose pull`.
 
@@ -51,14 +51,14 @@ careful running the command, make sure you know what you are doing, and take bac
 
 1.) Run `docker compose -f docker-compose.yml -f docker-compose.nfs.prod.yml up` after making applicable changes to the `docker-compose.nfs.prod.yml` file.
 
-2.) Configure NGINX to forward traffic to your Nextcloud application. I strongly suggest having a proxy server in front of your Minio docker environment.
+2.) Configure NGINX to forward traffic to your Minio application. I strongly suggest having a proxy server in front of your Minio docker environment.
 
 Below is an example of a reverse-proxy configuration to get you started using [NGNIX](https://www.nginx.com/).
 *PLEASE CONFIGURE YOUR DEPLOYMENT WITH SSL. You can do so with [Certbot](https://certbot.eff.org/). It will take the configuration below
 and modify it to support https.*
 
 ```
-# configuration for nextcloud production environment
+# configuration for minio production environment
 upstream minio-prod-backend-server {
     # the minio application in minio container
     server <localhost or whatever IP>:9000; # ip and use the port specified in the docker-compose.yml
