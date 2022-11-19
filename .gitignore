@@ -1,0 +1,3 @@
+.minio-env
+docker-compose.nfs.dev.yml
+docker-compose.nfs.prod.yml
